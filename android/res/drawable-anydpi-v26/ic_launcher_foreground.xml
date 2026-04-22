@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Фон -->
+    <path
+        android:fillColor="#1E2A38"
+        android:pathData="M0,0h108v108h-108z"/>
+
+    <!-- След самолёта -->
+    <path
+        android:fillColor="#FF6A00"
+        android:pathData="M10,80 C40,60 70,60 100,80 L100,90 C70,70 40,70 10,90 Z"/>
+
+    <!-- Самолёт -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,55 L75,35 L85,40 L60,55 L85,70 L75,75 L30,60 L25,65 L20,60 L25,55 Z"/>
+
+</vector>

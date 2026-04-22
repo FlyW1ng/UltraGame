@@ -1,0 +1,10 @@
+
+    элемент_подэлемент(если есть)_состояние(если есть)_тема(светлая/темная/и тд)
+
+    element_sub-element(if there is one)_condition(if there is one)_theme(light/dark/ and other)
+
+Пример:
+
+    button_start_idle_light // Светлая кнопка старта в статичном состоянии
+
+
