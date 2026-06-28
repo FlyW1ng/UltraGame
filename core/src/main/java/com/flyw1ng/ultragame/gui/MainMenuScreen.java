@@ -17,7 +17,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen(Main game){
         this.game = game;
-        this.viewport = new FitViewport(300, 1080);
+        this.viewport = new FitViewport(96, 192);
 
         MainMenuBuilder builder = new MainMenuBuilder(game.textureLoader,
             game.spriteBatch,
@@ -51,7 +51,12 @@ public class MainMenuScreen extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width, height, true);
+    }
+
+    @Override
+    public void show() {
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 
     @Override
