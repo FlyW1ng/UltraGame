@@ -14,9 +14,10 @@ public class GameSettings {
     // Значения по умолчанию
     private static final float DEFAULT_MUSIC_VOLUME = 0.2f;
     private static final STATE DEFAULT_SOUND_STATE = STATE.ON;
-    public static float musicVolume = DEFAULT_MUSIC_VOLUME;
-    public static STATE musicState = DEFAULT_SOUND_STATE;
-    public static STATE soundState = DEFAULT_SOUND_STATE;
+
+    private float musicVolume;
+    private STATE musicState;
+    private STATE soundState;
 
     private final Preferences prefs;
 
@@ -31,10 +32,11 @@ public class GameSettings {
     }
 
     public float getMusicVolume() {
-        return prefs.getFloat(MUSIC_VOLUME_KEY);
+        return musicVolume;
     }
 
     public void setMusicVolume(float volume) {
+        this.musicVolume = volume;
         prefs.putFloat(MUSIC_VOLUME_KEY, volume);
         prefs.flush();
     }

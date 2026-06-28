@@ -98,4 +98,7 @@ public class AnimationPlayer {
     public void setDirection(Direction direction){
         this.direction = direction;
     }
+    public void setCurrentFrame(int currentFrame){
+        this.currentFrame = currentFrame;
+    }
 }

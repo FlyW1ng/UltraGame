@@ -5,24 +5,28 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.flyw1ng.ultragame.GameManager;
 import com.flyw1ng.ultragame.gui.UIElement;
+import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.gui.texture.ThemeType;
 
 public class Panel implements UIElement, Disposable {
 
     private final PanelType panelType;
     PanelTextureGetter panelTextureGetter;
-    ThemeType themeType;
     Vector2 min;
     Vector2 max;
+    private final ThemeManager themeManager;
 
-    public Panel(Vector2 minCoordinates, Vector2 maxCoordinates, PanelType panelType, PanelTextureGetter panelTextureGetter){
+    public Panel(Vector2 minCoordinates,
+                 Vector2 maxCoordinates,
+                 PanelType panelType,
+                 PanelTextureGetter panelTextureGetter,
+                 ThemeManager themeManager){
         this.panelType = panelType;
         this.panelTextureGetter = panelTextureGetter;
-        themeType = ThemeType.LIGHT;
         min = minCoordinates;
         max = maxCoordinates;
+        this.themeManager = themeManager;
     }
 
     @Override
@@ -37,11 +41,8 @@ public class Panel implements UIElement, Disposable {
 
     @Override
     public void renderPixmap(Pixmap pixmap) {
-        if (GameManager.ThemeTypeNow.equals(ThemeType.LIGHT)){
-            themeType = ThemeType.LIGHT;
-        } else themeType = ThemeType.DARK;
 
-        Texture texture = panelTextureGetter.get(panelType, themeType);
+        Texture texture = panelTextureGetter.get(panelType, themeManager.getCurrentTheme());
 
         if (!texture.getTextureData().isPrepared()){
             texture.getTextureData().prepare();
@@ -55,11 +56,7 @@ public class Panel implements UIElement, Disposable {
     @Override
     public void render(SpriteBatch spriteBatch) {
 
-        if (GameManager.ThemeTypeNow.equals(ThemeType.LIGHT)){
-            themeType = ThemeType.LIGHT;
-        } else themeType = ThemeType.DARK;
-
-        Texture texture = panelTextureGetter.get(panelType, themeType);
+        Texture texture = panelTextureGetter.get(panelType, themeManager.getCurrentTheme());
 
         spriteBatch.draw(texture, (int) min.x, (int) min.y);
     }

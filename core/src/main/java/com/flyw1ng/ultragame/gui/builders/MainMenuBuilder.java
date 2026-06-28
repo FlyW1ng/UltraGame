@@ -2,12 +2,10 @@ package com.flyw1ng.ultragame.gui.builders;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.flyw1ng.ultragame.GameManager;
 import com.flyw1ng.ultragame.anim.Animation;
 import com.flyw1ng.ultragame.anim.AnimationPlayer;
-import com.flyw1ng.ultragame.anim.FrameAnimation;
-import com.flyw1ng.ultragame.anim.TimerAnimation;
 import com.flyw1ng.ultragame.gui.MenuScene;
 import com.flyw1ng.ultragame.gui.UIElement;
 import com.flyw1ng.ultragame.gui.background.Background;
@@ -48,7 +46,9 @@ public class MainMenuBuilder {
 
         // Фон
         BackgroundUI backgroundUI = new BackgroundUI(textureLoader);
-        Background background = new Background(BackgroundType.MAIN_MENU, backgroundUI);
+        Background background = new Background(BackgroundType.MAIN_MENU,
+            backgroundUI,
+            themeManager);
         elements.add(background);
 
         // Лампа с переключением темы
@@ -60,29 +60,33 @@ public class MainMenuBuilder {
             LampType.MAIN_MENU,
             animationPlayer,
             this::clickLamp,
-            lampUI);
+            lampUI,
+            themeManager);
         elements.add(lamp);
 
         // Кнопки
         ButtonUI buttonUI = new ButtonUI(textureLoader);
 
-        Button startButton = new Button(11, MainMenuConstants.START_BUTTON_Y, 83, 143,
+        Button startButton = new Button(11, MainMenuConstants.START_BUTTON_Y, new Rectangle(11, 96, 64, 47),
             ButtonType.START,
             this::executePlay,
             new AnimationPlayer(new Animation(2, 0.07f,false)),
-            buttonUI);
+            buttonUI,
+            themeManager);
 
-        Button optionsButton = new Button(14, MainMenuConstants.OPTIONS_BUTTON_Y, 80, 100,
+        Button optionsButton = new Button(14, MainMenuConstants.OPTIONS_BUTTON_Y, new Rectangle(14, 62, 64, 38),
             ButtonType.OPTIONS,
             this::executeOptions,
             new AnimationPlayer(new Animation(2, 0.07f,false)),
-            buttonUI);
+            buttonUI,
+            themeManager);
 
-        Button exitButton = new Button(14, MainMenuConstants.EXIT_BUTTON_Y, 80, 66,
+        Button exitButton = new Button(14, MainMenuConstants.EXIT_BUTTON_Y,new Rectangle(14, 28, 64, 38),
             ButtonType.EXIT,
             this::executeExit,
             new AnimationPlayer(new Animation(2, 0.07f,false)),
-            buttonUI);
+            buttonUI,
+            themeManager);
 
         elements.add(startButton);
         elements.add(optionsButton);
@@ -106,7 +110,6 @@ public class MainMenuBuilder {
     }
     private void executeOptions(){
         SoundManager.click.play(getSoundVolume());
-        GameManager.GameStateNow = GameManager.GameState.OPTIONS;
     }
     private void executePlay(){
         SoundManager.click.play(getSoundVolume());

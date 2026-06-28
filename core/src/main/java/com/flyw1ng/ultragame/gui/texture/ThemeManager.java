@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ThemeManager {
     private final List<ThemeChangeListener> listeners = new ArrayList<>();
-
+    private  ThemeType currentTheme = ThemeType.LIGHT;
     public void addListener(ThemeChangeListener listener) {
         listeners.add(listener);
     }
@@ -20,14 +20,16 @@ public class ThemeManager {
         listeners.remove(listener);
     }
     public void toggleTheme(){
-        if (GameManager.ThemeTypeNow == ThemeType.LIGHT) {
-            GameManager.ThemeTypeNow = ThemeType.DARK;
+        if (currentTheme == ThemeType.LIGHT) {
+            currentTheme = ThemeType.DARK;
         } else {
-            GameManager.ThemeTypeNow = ThemeType.LIGHT;
+            currentTheme = ThemeType.LIGHT;
         }
         for (ThemeChangeListener listener : listeners){
             listener.onThemeChanged();
         }
-
+    }
+    public ThemeType getCurrentTheme(){
+        return currentTheme;
     }
 }

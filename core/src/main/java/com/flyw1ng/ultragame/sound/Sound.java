@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
-import com.flyw1ng.ultragame.GameManager;
 import com.flyw1ng.ultragame.anim.AnimationPlayer;
 import com.flyw1ng.ultragame.gui.Action;
 import com.flyw1ng.ultragame.gui.UIElement;
+import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.gui.texture.ThemeType;
 import com.flyw1ng.ultragame.settings.GameSettings;
 
@@ -20,10 +20,9 @@ public class Sound implements UIElement, Disposable {
     private final SoundType type;
     private AnimationPlayer animationPlayer;
     SoundTextureGetter soundTextureGetter;
-    private ThemeType themeType;
     private Action action;
     private GameSettings gameSettings;
-
+    private final ThemeManager themeManager;
 
 
     public Sound(Vector2 min, Vector2 max,
@@ -31,7 +30,8 @@ public class Sound implements UIElement, Disposable {
                  Action action,
                  GameSettings gameSettings,
                  AnimationPlayer animationPlayer,
-                 SoundTextureGetter soundTextureGetter){
+                 SoundTextureGetter soundTextureGetter,
+                 ThemeManager themeManager){
         this.min = new Vector3(min.x, min.y, 0);
         this.max = new Vector3(max.x, max.y, 0);
         this.type = type;
@@ -39,7 +39,7 @@ public class Sound implements UIElement, Disposable {
         this.soundTextureGetter = soundTextureGetter;
         this.action = action;
         this.gameSettings = gameSettings;
-        themeType = ThemeType.LIGHT;
+        this.themeManager = themeManager;
     }
 
     @Override
@@ -47,12 +47,6 @@ public class Sound implements UIElement, Disposable {
 //            animationPlayer.setReverse(gameSettings.getMusicState().equals(GameSettings.STATE.OFF.toString()));
 
         animationPlayer.update();
-
-        if (GameManager.ThemeTypeNow.equals(ThemeType.LIGHT)){
-            themeType = ThemeType.LIGHT;
-        } else {
-            themeType = ThemeType.DARK;
-        }
 
         if (animationPlayer.isFinished()){
             action.execute();
@@ -63,7 +57,7 @@ public class Sound implements UIElement, Disposable {
 
     @Override
     public void renderPixmap(Pixmap pixmap) {
-        Texture texture = soundTextureGetter.get(type, themeType, SoundState.get(animationPlayer.getFrame()));
+        Texture texture = soundTextureGetter.get(type, themeManager.getCurrentTheme(), SoundState.get(animationPlayer.getFrame()));
 
         if (!texture.getTextureData().isPrepared()){
             texture.getTextureData().prepare();
@@ -76,7 +70,7 @@ public class Sound implements UIElement, Disposable {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        Texture texture = soundTextureGetter.get(type, themeType, SoundState.get(animationPlayer.getFrame()));
+        Texture texture = soundTextureGetter.get(type, themeManager.getCurrentTheme(), SoundState.get(animationPlayer.getFrame()));
 
         spriteBatch.draw(texture, min.x, min.y);
     }

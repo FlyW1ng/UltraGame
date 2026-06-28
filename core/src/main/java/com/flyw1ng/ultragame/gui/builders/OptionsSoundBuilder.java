@@ -1,8 +1,8 @@
 package com.flyw1ng.ultragame.gui.builders;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.flyw1ng.ultragame.GameManager;
 import com.flyw1ng.ultragame.anim.Animation;
 import com.flyw1ng.ultragame.anim.AnimationPlayer;
 import com.flyw1ng.ultragame.gui.MenuScene;
@@ -48,7 +48,9 @@ public class OptionsSoundBuilder {
         List<UIElement> elements = new ArrayList<>();
 
         BackgroundUI backgroundUI = new BackgroundUI(textureLoader);
-        Background background = new Background(BackgroundType.OPTIONS, backgroundUI);
+        Background background = new Background(BackgroundType.OPTIONS,
+            backgroundUI,
+            themeManager);
         elements.add(background);
 
         LampUI lampUI = new LampUI(textureLoader);
@@ -58,11 +60,16 @@ public class OptionsSoundBuilder {
             LampType.MAIN_MENU,
             new AnimationPlayer(new Animation(6, 0.2f, false)),
             this::clickLamp,
-            lampUI);
+            lampUI,
+            themeManager);
         elements.add(lamp);
 
         PanelUI panelUI = new PanelUI(textureLoader);
-        Panel panel = new Panel(new Vector2(11, 54), new Vector2(85, 143), PanelType.OPTIONS, panelUI);
+        Panel panel = new Panel(new Vector2(11, 54),
+            new Vector2(85, 143),
+            PanelType.OPTIONS,
+            panelUI,
+            themeManager);
         elements.add(panel);
 
         SoundUI soundUI = new SoundUI(textureLoader);
@@ -73,24 +80,27 @@ public class OptionsSoundBuilder {
             this::sound,
             gameSettings,
             new AnimationPlayer(new Animation(3, 0.1f, false)),
-            soundUI);
+            soundUI,
+            themeManager);
         Sound music = new Sound(new Vector2(27, 74),
             new Vector2(71, 89),
             SoundType.MUSIC,
             this::music,
             gameSettings,
             new AnimationPlayer(new Animation(3, 0.1f, false)),
-            soundUI);
+            soundUI,
+            themeManager);
         elements.add(sound);
         elements.add(music);
 
 
         ButtonUI buttonUI = new ButtonUI(textureLoader);
-        Button buttonOK = new Button(31, 19, 65, 56,
+        Button buttonOK = new Button(31, 19, new Rectangle(31, 19, 34, 37),
             ButtonType.OK,
             this::executeOk,
             new AnimationPlayer(new Animation(2, 0.07f, false)),
-            buttonUI);
+            buttonUI,
+            themeManager);
         elements.add(buttonOK);
         sortElements(elements);
 
@@ -110,7 +120,6 @@ public class OptionsSoundBuilder {
     }
     private void executeOk(){
         SoundManager.click.play(getSoundVolume());
-        GameManager.GameStateNow = GameManager.GameState.MAIN_MENU;
     }
     private void clickLamp(){
         SoundManager.clickLamp.play(getSoundVolume());

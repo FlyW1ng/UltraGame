@@ -4,32 +4,29 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import com.flyw1ng.ultragame.GameManager;
 import com.flyw1ng.ultragame.gui.UIElement;
+import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.gui.texture.ThemeType;
 
 public class Background implements UIElement, Disposable {
     private BackgroundType backgroundType;
     BackgroundTextureGetter backgroundTextureGetter;
-    ThemeType themeType;
+    private final ThemeManager themeManager;
 
     public Background(BackgroundType backgroundType,
-                      BackgroundTextureGetter backgroundTextureGetter){
+                      BackgroundTextureGetter backgroundTextureGetter,
+                      ThemeManager themeManager){
 
         this.backgroundType = backgroundType;
         this.backgroundTextureGetter = backgroundTextureGetter;
-        themeType = ThemeType.LIGHT;
+        this.themeManager = themeManager;
     }
 
 
     @Override
     public void renderPixmap(Pixmap pixmap) {
 
-        if (GameManager.ThemeTypeNow.equals(ThemeType.LIGHT)){
-            themeType = ThemeType.LIGHT;
-        } else themeType = ThemeType.DARK;
-
-        Texture texture = backgroundTextureGetter.get(backgroundType, themeType);
+        Texture texture = backgroundTextureGetter.get(backgroundType, themeManager.getCurrentTheme());
 
         if (!texture.getTextureData().isPrepared()){
             texture.getTextureData().prepare();
@@ -40,11 +37,7 @@ public class Background implements UIElement, Disposable {
     @Override
     public void render(SpriteBatch spriteBatch){
 
-        if (GameManager.ThemeTypeNow.equals(ThemeType.LIGHT)){
-            themeType = ThemeType.LIGHT;
-        } else themeType = ThemeType.DARK;
-
-        Texture texture = backgroundTextureGetter.get(backgroundType, themeType);
+        Texture texture = backgroundTextureGetter.get(backgroundType, themeManager.getCurrentTheme());
 
         spriteBatch.draw(texture, 0, 0);
     }
