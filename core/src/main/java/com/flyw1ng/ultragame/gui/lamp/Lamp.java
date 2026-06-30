@@ -44,15 +44,15 @@ public class Lamp implements UIElement, Disposable {
 
         animationPlayer.update();
 
+        if (animationPlayer.isFinished()){
+            lampAction.execute();
+        }
+
         if (!animationPlayer.isAnimating()){
             if (themeManager.getCurrentTheme() == ThemeType.DARK){
                 animationPlayer.setCurrentFrame(5);
             }
             else animationPlayer.setCurrentFrame(0);
-        }
-
-        if (animationPlayer.isFinished()){
-            lampAction.execute();
         }
     }
 

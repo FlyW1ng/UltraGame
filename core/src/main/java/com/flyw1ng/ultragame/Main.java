@@ -1,7 +1,7 @@
 package com.flyw1ng.ultragame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.flyw1ng.ultragame.gui.MainMenuScreen;
+import com.flyw1ng.ultragame.gui.screens.MainMenuScreen;
 import com.flyw1ng.ultragame.gui.texture.TextureLoader;
 import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.settings.GameSettings;
