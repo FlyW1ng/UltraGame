@@ -12,6 +12,7 @@ import com.flyw1ng.ultragame.gui.UIElement;
 import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.gui.texture.ThemeType;
 import com.flyw1ng.ultragame.settings.GameSettings;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 public class Sound implements UIElement, Disposable {
 
@@ -40,12 +41,13 @@ public class Sound implements UIElement, Disposable {
         this.action = action;
         this.gameSettings = gameSettings;
         this.themeManager = themeManager;
+
+        checkStateAndSetAnimation();
     }
 
     @Override
     public void update() {
 //            animationPlayer.setReverse(gameSettings.getMusicState().equals(GameSettings.STATE.OFF.toString()));
-
         animationPlayer.update();
 
         if (animationPlayer.isFinished()){
@@ -53,6 +55,9 @@ public class Sound implements UIElement, Disposable {
             animationPlayer.stop();
         }
 
+        if (!animationPlayer.isAnimating()){
+            checkStateAndSetAnimation();
+        }
     }
 
     @Override
@@ -106,5 +111,17 @@ public class Sound implements UIElement, Disposable {
     @Override
     public void dispose() {
         soundTextureGetter.dispose();
+    }
+    private void checkStateAndSetAnimation(){
+        boolean isOff = false;
+        if (type == SoundType.MUSIC){
+            isOff = gameSettings.getMusicState().equals(GameSettings.STATE.OFF.name());
+        } else if (type == SoundType.SOUND) {
+            isOff = gameSettings.getSoundState().equals(GameSettings.STATE.OFF.name());
+        }
+
+        if (isOff){
+            animationPlayer.setCurrentFrame(2); //Ставим переключатель в положение "Выкдючено"
+        }else animationPlayer.setCurrentFrame(0); //Обратное дейтсвия прошлому
     }
 }

@@ -3,6 +3,7 @@ package com.flyw1ng.ultragame.gui.builders;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.flyw1ng.ultragame.Main;
 import com.flyw1ng.ultragame.anim.Animation;
 import com.flyw1ng.ultragame.anim.AnimationPlayer;
 import com.flyw1ng.ultragame.gui.MenuScene;
@@ -19,6 +20,8 @@ import com.flyw1ng.ultragame.gui.lamp.LampUI;
 import com.flyw1ng.ultragame.gui.panels.Panel;
 import com.flyw1ng.ultragame.gui.panels.PanelType;
 import com.flyw1ng.ultragame.gui.panels.PanelUI;
+import com.flyw1ng.ultragame.gui.screens.MainMenuScreen;
+import com.flyw1ng.ultragame.gui.screens.OptionsScreen;
 import com.flyw1ng.ultragame.gui.texture.TextureLoader;
 import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.settings.GameSettings;
@@ -31,17 +34,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OptionsSoundBuilder {
-
+    private final Main game;
     private final TextureLoader textureLoader;
     private final SpriteBatch spriteBatch;
     private final ThemeManager themeManager;
     private final GameSettings gameSettings;
 
-    public OptionsSoundBuilder(TextureLoader textureLoader, SpriteBatch spriteBatch, ThemeManager themeManager, GameSettings gameSettings){
+    public OptionsSoundBuilder(TextureLoader textureLoader,
+                               SpriteBatch spriteBatch,
+                               ThemeManager themeManager,
+                               GameSettings gameSettings,
+                               Main game){
         this.textureLoader = textureLoader;
         this.spriteBatch = spriteBatch;
         this.themeManager = themeManager;
         this.gameSettings = gameSettings;
+        this.game = game;
     }
 
     public MenuScene build(){
@@ -55,7 +63,7 @@ public class OptionsSoundBuilder {
 
         LampUI lampUI = new LampUI(textureLoader);
 
-        Lamp lamp = new Lamp(new Vector2(42, 175),
+        Lamp lamp = new Lamp(new Vector2(41, 175),
             new Vector2(53, 190),
             LampType.MAIN_MENU,
             new AnimationPlayer(new Animation(6, 0.2f, false)),
@@ -120,6 +128,9 @@ public class OptionsSoundBuilder {
     }
     private void executeOk(){
         SoundManager.click.play(getSoundVolume());
+        if (game.getScreen() instanceof OptionsScreen){
+            ((OptionsScreen) game.getScreen()).close();
+        }
     }
     private void clickLamp(){
         SoundManager.clickLamp.play(getSoundVolume());

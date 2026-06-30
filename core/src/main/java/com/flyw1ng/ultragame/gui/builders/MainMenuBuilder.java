@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.flyw1ng.ultragame.Main;
 import com.flyw1ng.ultragame.anim.Animation;
 import com.flyw1ng.ultragame.anim.AnimationPlayer;
 import com.flyw1ng.ultragame.gui.MenuScene;
@@ -17,6 +18,8 @@ import com.flyw1ng.ultragame.gui.buttons.ButtonUI;
 import com.flyw1ng.ultragame.gui.lamp.Lamp;
 import com.flyw1ng.ultragame.gui.lamp.LampType;
 import com.flyw1ng.ultragame.gui.lamp.LampUI;
+import com.flyw1ng.ultragame.gui.screens.MainMenuScreen;
+import com.flyw1ng.ultragame.gui.screens.OptionsScreen;
 import com.flyw1ng.ultragame.gui.texture.TextureLoader;
 import com.flyw1ng.ultragame.gui.texture.ThemeManager;
 import com.flyw1ng.ultragame.settings.GameSettings;
@@ -29,16 +32,22 @@ import java.util.List;
  * Строитель главного меню. Создаёт и конфигурирует все UI-элементы.
  */
 public class MainMenuBuilder {
+    private final Main game;
     private final TextureLoader textureLoader;
     private final SpriteBatch spriteBatch;
     private final ThemeManager themeManager;
     private final GameSettings gameSettings;
 
-    public MainMenuBuilder(TextureLoader textureLoader, SpriteBatch spriteBatch, ThemeManager themeManager, GameSettings gameSettings) {
+    public MainMenuBuilder(TextureLoader textureLoader,
+                           SpriteBatch spriteBatch,
+                           ThemeManager themeManager,
+                           GameSettings gameSettings,
+                           Main game) {
         this.textureLoader = textureLoader;
         this.spriteBatch = spriteBatch;
         this.themeManager = themeManager;
         this.gameSettings = gameSettings;
+        this.game = game;
     }
 
     public MenuScene build() {
@@ -110,6 +119,7 @@ public class MainMenuBuilder {
     }
     private void executeOptions(){
         SoundManager.click.play(getSoundVolume());
+        game.setScreen(new OptionsScreen(game, (MainMenuScreen) game.getScreen()));
     }
     private void executePlay(){
         SoundManager.click.play(getSoundVolume());

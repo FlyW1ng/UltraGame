@@ -1,4 +1,4 @@
-package com.flyw1ng.ultragame.gui;
+package com.flyw1ng.ultragame.gui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.flyw1ng.ultragame.Main;
+import com.flyw1ng.ultragame.gui.MenuScene;
 import com.flyw1ng.ultragame.gui.builders.MainMenuBuilder;
 
 public class MainMenuScreen extends ScreenAdapter {
@@ -22,18 +23,9 @@ public class MainMenuScreen extends ScreenAdapter {
         MainMenuBuilder builder = new MainMenuBuilder(game.textureLoader,
             game.spriteBatch,
             game.themeManager,
-            game.gameSettings);
+            game.gameSettings,
+            game);
         this.menuScene = builder.build();
-
-        Gdx.input.setInputProcessor(new InputAdapter(){
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button){
-                Vector3 touchPos = new Vector3(screenX, screenY,0);
-                viewport.unproject(touchPos);
-                menuScene.touch(touchPos);
-                return true;
-            }
-        });
     }
 
     @Override
@@ -41,7 +33,10 @@ public class MainMenuScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.SALMON);
 
         menuScene.update();
+        draw();
 
+    }
+    public void draw(){
         viewport.apply();
         game.spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
         game.spriteBatch.begin();
@@ -57,6 +52,16 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        Gdx.input.setInputProcessor(new InputAdapter(){
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button){
+                Vector3 touchPos = new Vector3(screenX, screenY,0);
+                viewport.unproject(touchPos);
+                menuScene.touch(touchPos);
+                return true;
+            }
+        });
     }
 
     @Override
